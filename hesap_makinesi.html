@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bilimsel Hesap Makinesi</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fce4ec;
+  --surface: #f8bbd0;
+  --surface2: #f48fb1;
+  --screen-bg: #fff0f5;
+  --screen-text: #880e4f;
+  --screen-sub: #c2185b99;
+  --btn-num-bg: #ffffffcc;
+  --btn-num-text: #880e4f;
+  --btn-num-shadow: #d81b6022;
+  --btn-op-bg: #f48fb1;
+  --btn-op-text: #fff;
+  --btn-op-shadow: #d81b6044;
+  --btn-sci-bg: #fce4ec;
+  --btn-sci-text: #c2185b;
+  --btn-sci-shadow: #f48fb155;
+  --btn-eq-bg: #e91e63;
+  --btn-eq-text: #fff;
+  --btn-eq-shadow: #ad145755;
+  --btn-clear-bg: #d81b60;
+  --btn-clear-text: #fff;
+  --btn-clear-shadow: #88000044;
+  --border: #f48fb155;
+  --accent: #e91e63;
+}
+[data-theme="blue"] {
+  --bg: #e3f2fd; --surface: #bbdefb; --surface2: #90caf9;
+  --screen-bg: #e8f4ff; --screen-text: #0d47a1; --screen-sub: #1976d299;
+  --btn-num-bg: #ffffffcc; --btn-num-text: #0d47a1; --btn-num-shadow: #1976d222;
+  --btn-op-bg: #42a5f5; --btn-op-text: #fff; --btn-op-shadow: #0d47a144;
+  --btn-sci-bg: #e3f2fd; --btn-sci-text: #0d47a1; --btn-sci-shadow: #90caf955;
+  --btn-eq-bg: #1976d2; --btn-eq-text: #fff; --btn-eq-shadow: #0b3f7a55;
+  --btn-clear-bg: #1565c0; --btn-clear-text: #fff; --btn-clear-shadow: #0b3f7a44;
+  --border: #90caf955; --accent: #1976d2;
+}
+[data-theme="purple"] {
+  --bg: #f3e5f5; --surface: #e1bee7; --surface2: #ce93d8;
+  --screen-bg: #f8f0fb; --screen-text: #4a148c; --screen-sub: #7b1fa299;
+  --btn-num-bg: #ffffffcc; --btn-num-text: #4a148c; --btn-num-shadow: #7b1fa222;
+  --btn-op-bg: #ab47bc; --btn-op-text: #fff; --btn-op-shadow: #6a1b9a44;
+  --btn-sci-bg: #f3e5f5; --btn-sci-text: #6a1b9a; --btn-sci-shadow: #ce93d855;
+  --btn-eq-bg: #8e24aa; --btn-eq-text: #fff; --btn-eq-shadow: #58147255;
+  --btn-clear-bg: #6a1b9a; --btn-clear-text: #fff; --btn-clear-shadow: #4a148c44;
+  --border: #ce93d855; --accent: #8e24aa;
+}
+[data-theme="orange"] {
+  --bg: #fff3e0; --surface: #ffe0b2; --surface2: #ffcc80;
+  --screen-bg: #fff8ef; --screen-text: #e65100; --screen-sub: #ef6c0099;
+  --btn-num-bg: #ffffffcc; --btn-num-text: #e65100; --btn-num-shadow: #ef6c0022;
+  --btn-op-bg: #ffb74d; --btn-op-text: #fff; --btn-op-shadow: #ef6c0044;
+  --btn-sci-bg: #fff3e0; --btn-sci-text: #e65100; --btn-sci-shadow: #ffcc8055;
+  --btn-eq-bg: #fb8c00; --btn-eq-text: #fff; --btn-eq-shadow: #c35a0055;
+  --btn-clear-bg: #e65100; --btn-clear-text: #fff; --btn-clear-shadow: #b43b0044;
+  --border: #ffcc8055; --accent: #fb8c00;
+}
+[data-theme="yellow"] {
+  --bg: #fffde7; --surface: #fff9c4; --surface2: #fff59d;
+  --screen-bg: #fffef6; --screen-text: #f57f17; --screen-sub: #f9a82599;
+  --btn-num-bg: #ffffffcc; --btn-num-text: #f57f17; --btn-num-shadow: #f9a82522;
+  --btn-op-bg: #fdd835; --btn-op-text: #795500; --btn-op-shadow: #f9a82544;
+  --btn-sci-bg: #fffde7; --btn-sci-text: #f57f17; --btn-sci-shadow: #fff59d55;
+  --btn-eq-bg: #fbc02d; --btn-eq-text: #fff; --btn-eq-shadow: #c7910055;
+  --btn-clear-bg: #f57f17; --btn-clear-text: #fff; --btn-clear-shadow: #c1710044;
+  --border: #fff59d55; --accent: #fbc02d;
+}
+[data-theme="red"] {
+  --bg: #ffebee; --surface: #ffcdd2; --surface2: #ef9a9a;
+  --screen-bg: #fff5f5; --screen-text: #b71c1c; --screen-sub: #c6282899;
+  --btn-num-bg: #ffffffcc; --btn-num-text: #b71c1c; --btn-num-shadow: #c6282822;
+  --btn-op-bg: #ef5350; --btn-op-text: #fff; --btn-op-shadow: #c6282844;
+  --btn-sci-bg: #ffebee; --btn-sci-text: #c62828; --btn-sci-shadow: #ef9a9a55;
+  --btn-eq-bg: #e53935; --btn-eq-text: #fff; --btn-eq-shadow: #8e000055;
+  --btn-clear-bg: #b71c1c; --btn-clear-text: #fff; --btn-clear-shadow: #7a001044;
+  --border: #ef9a9a55; --accent: #e53935;
+}
+[data-theme="black"] {
+  --bg: #181818; --surface: #252525; --surface2: #333;
+  --screen-bg: #111; --screen-text: #f0f0f0; --screen-sub: #aaaaaa99;
+  --btn-num-bg: #2a2a2aee; --btn-num-text: #f0f0f0; --btn-num-shadow: #00000055;
+  --btn-op-bg: #444; --btn-op-text: #fff; --btn-op-shadow: #00000077;
+  --btn-sci-bg: #222; --btn-sci-text: #aaa; --btn-sci-shadow: #00000055;
+  --btn-eq-bg: #666; --btn-eq-text: #fff; --btn-eq-shadow: #00000077;
+  --btn-clear-bg: #555; --btn-clear-text: #fff; --btn-clear-shadow: #00000055;
+  --border: #ffffff11; --accent: #aaa;
+}
+[data-theme="white"] {
+  --bg: #f9f9f9; --surface: #efefef; --surface2: #e0e0e0;
+  --screen-bg: #ffffff; --screen-text: #111; --screen-sub: #55555599;
+  --btn-num-bg: #fff; --btn-num-text: #222; --btn-num-shadow: #00000011;
+  --btn-op-bg: #e0e0e0; --btn-op-text: #222; --btn-op-shadow: #00000022;
+  --btn-sci-bg: #f9f9f9; --btn-sci-text: #555; --btn-sci-shadow: #00000011;
+  --btn-eq-bg: #bdbdbd; --btn-eq-text: #111; --btn-eq-shadow: #00000022;
+  --btn-clear-bg: #e57373; --btn-clear-text: #fff; --btn-clear-shadow: #c6282844;
+  --border: #00000011; --accent: #333;
+}
+[data-theme="gray"] {
+  --bg: #eceff1; --surface: #cfd8dc; --surface2: #b0bec5;
+  --screen-bg: #e0e5e8; --screen-text: #263238; --screen-sub: #45576499;
+  --btn-num-bg: #ffffffcc; --btn-num-text: #263238; --btn-num-shadow: #45576422;
+  --btn-op-bg: #90a4ae; --btn-op-text: #fff; --btn-op-shadow: #45576444;
+  --btn-sci-bg: #eceff1; --btn-sci-text: #37474f; --btn-sci-shadow: #b0bec555;
+  --btn-eq-bg: #607d8b; --btn-eq-text: #fff; --btn-eq-shadow: #37474f55;
+  --btn-clear-bg: #546e7a; --btn-clear-text: #fff; --btn-clear-shadow: #26323844;
+  --border: #b0bec555; --accent: #607d8b;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.4s ease;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 20%, var(--surface2) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 80%, var(--surface) 0%, transparent 50%);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+  transition: background 0.4s ease;
+}
+
+.calculator {
+  position: relative;
+  z-index: 1;
+  background: var(--surface);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 24px 20px 20px;
+  box-shadow:
+    0 2px 0 var(--border) inset,
+    0 30px 80px rgba(0,0,0,0.12),
+    0 8px 20px rgba(0,0,0,0.06);
+  width: 340px;
+  border: 1px solid var(--border);
+  transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
+  animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--screen-text);
+  opacity: 0.5;
+}
+
+.theme-picker {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.theme-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+.theme-dot:hover { transform: scale(1.2); }
+.theme-dot.active { border-color: var(--screen-text); transform: scale(1.15); }
+
+/* Screen */
+.screen {
+  background: var(--screen-bg);
+  border-radius: 16px;
+  padding: 14px 18px 12px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.04);
+  transition: background 0.4s, border-color 0.4s;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+.screen-expr {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--screen-sub);
+  min-height: 16px;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 4px;
+  transition: color 0.4s;
+}
+.screen-main {
+  font-family: 'Space Mono', monospace;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--screen-text);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: -0.02em;
+  transition: color 0.4s, font-size 0.15s;
+  min-height: 36px;
+  line-height: 1.2;
+}
+.screen-main.error { color: #e53935; font-size: 20px; }
+
+/* Buttons grid */
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+button {
+  border: none;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 17px;
+  cursor: pointer;
+  padding: 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.1s, box-shadow 0.1s, filter 0.1s;
+  outline: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:active {
+  transform: translateY(2px) scale(0.97);
+  filter: brightness(0.93);
+}
+button:hover:not(:active) { filter: brightness(1.04); }
+
+/* Numeric buttons */
+.btn-num {
+  background: var(--btn-num-bg);
+  color: var(--btn-num-text);
+  box-shadow: 0 3px 0 var(--btn-num-shadow), 0 1px 4px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+  font-size: 20px;
+}
+
+/* Operator buttons */
+.btn-op {
+  background: var(--btn-op-bg);
+  color: var(--btn-op-text);
+  box-shadow: 0 3px 0 var(--btn-op-shadow);
+  font-size: 20px;
+}
+
+/* Scientific buttons */
+.btn-sci {
+  background: var(--btn-sci-bg);
+  color: var(--btn-sci-text);
+  box-shadow: 0 3px 0 var(--btn-sci-shadow);
+  border: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* Equal button */
+.btn-eq {
+  grid-column: span 2;
+  background: var(--btn-eq-bg);
+  color: var(--btn-eq-text);
+  box-shadow: 0 3px 0 var(--btn-eq-shadow);
+  font-size: 22px;
+  letter-spacing: 0.04em;
+}
+
+/* Clear button */
+.btn-clear {
+  background: var(--btn-clear-bg);
+  color: var(--btn-clear-text);
+  box-shadow: 0 3px 0 var(--btn-clear-shadow);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+/* Backspace */
+.btn-back {
+  background: var(--btn-sci-bg);
+  color: var(--btn-sci-text);
+  box-shadow: 0 3px 0 var(--btn-sci-shadow);
+  border: 1px solid var(--border);
+  font-size: 20px;
+}
+
+.note {
+  font-size: 10px;
+  color: var(--screen-text);
+  opacity: 0.35;
+  text-align: center;
+  margin-top: 14px;
+  letter-spacing: 0.03em;
+}
+</style>
+</head>
+<body>
+<div class="calculator" id="calc">
+  <div class="header">
+    <span class="title">Hesap Makinesi</span>
+    <div class="theme-picker" id="themePicker"></div>
+  </div>
+
+  <div class="screen">
+    <div class="screen-expr" id="expr"></div>
+    <div class="screen-main" id="display">0</div>
+  </div>
+
+  <div class="buttons">
+    <button class="btn-sci" data-in="sin(">sin</button>
+    <button class="btn-sci" data-in="cos(">cos</button>
+    <button class="btn-sci" data-in="tan(">tan</button>
+    <button class="btn-clear" id="clr">C</button>
+
+    <button class="btn-sci" data-in="log10(">log</button>
+    <button class="btn-sci" data-in="ln(">ln</button>
+    <button class="btn-sci" data-in="sqrt(">√</button>
+    <button class="btn-op"  data-in="/">÷</button>
+
+    <button class="btn-num" data-in="7">7</button>
+    <button class="btn-num" data-in="8">8</button>
+    <button class="btn-num" data-in="9">9</button>
+    <button class="btn-op"  data-in="*">×</button>
+
+    <button class="btn-num" data-in="4">4</button>
+    <button class="btn-num" data-in="5">5</button>
+    <button class="btn-num" data-in="6">6</button>
+    <button class="btn-op"  data-in="-">−</button>
+
+    <button class="btn-num" data-in="1">1</button>
+    <button class="btn-num" data-in="2">2</button>
+    <button class="btn-num" data-in="3">3</button>
+    <button class="btn-op"  data-in="+">+</button>
+
+    <button class="btn-num" data-in="0">0</button>
+    <button class="btn-num" data-in=".">.</button>
+    <button class="btn-eq" id="eq">=</button>
+    <button class="btn-back" id="back">⌫</button>
+
+    <button class="btn-sci" data-in="(">(</button>
+    <button class="btn-sci" data-in=")">)</button>
+    <button class="btn-sci" data-in="π">π</button>
+    <button class="btn-sci" data-in="^">xʸ</button>
+  </div>
+
+  <div class="note">sin cos tan parantezle · ^ kuvvet · π e sabitler</div>
+</div>
+
+<script>
+const display = document.getElementById('display');
+const exprEl  = document.getElementById('expr');
+const clrBtn  = document.getElementById('clr');
+const backBtn = document.getElementById('back');
+const eqBtn   = document.getElementById('eq');
+
+let expr = '';
+let justCalculated = false;
+
+const themes = [
+  { id: 'pink',   color: '#e91e63', label: 'Pembe' },
+  { id: 'blue',   color: '#1976d2', label: 'Mavi' },
+  { id: 'purple', color: '#8e24aa', label: 'Mor' },
+  { id: 'orange', color: '#fb8c00', label: 'Turuncu' },
+  { id: 'yellow', color: '#fbc02d', label: 'Sarı' },
+  { id: 'red',    color: '#e53935', label: 'Kırmızı' },
+  { id: 'black',  color: '#333',    label: 'Siyah' },
+  { id: 'white',  color: '#ccc',    label: 'Beyaz', border: '#888' },
+  { id: 'gray',   color: '#607d8b', label: 'Gri' },
+];
+
+let currentTheme = 'pink';
+const picker = document.getElementById('themePicker');
+const doc = document.documentElement;
+
+themes.forEach(t => {
+  const dot = document.createElement('div');
+  dot.className = 'theme-dot' + (t.id === currentTheme ? ' active' : '');
+  dot.style.background = t.color;
+  if (t.border) dot.style.outline = `1px solid ${t.border}`;
+  dot.title = t.label;
+  dot.addEventListener('click', () => applyTheme(t.id));
+  picker.appendChild(dot);
+});
+
+function applyTheme(name) {
+  currentTheme = name;
+  doc.removeAttribute('data-theme');
+  if (name !== 'pink') doc.setAttribute('data-theme', name);
+  picker.querySelectorAll('.theme-dot').forEach((d, i) => {
+    d.classList.toggle('active', themes[i].id === name);
+  });
+}
+
+function updateScreen() {
+  const val = expr || '0';
+  display.textContent = val;
+  display.classList.remove('error');
+  const fs = val.length > 14 ? '18px' : val.length > 10 ? '22px' : '28px';
+  display.style.fontSize = fs;
+}
+
+function addText(s) {
+  if (justCalculated) {
+    if (/^[0-9(πe]/.test(s)) expr = '';
+    justCalculated = false;
+  }
+  if (expr === '0' && /^[0-9]$/.test(s)) expr = '';
+  expr += s;
+  updateScreen();
+}
+
+function sanitizeInput(s) {
+  if (!/^[0-9+\-*/().,^πe %a-zA-Z]+$/.test(s)) throw 'Hata';
+  return s;
+}
+
+function prepareExpression(s) {
+  s = s.replace(/π/g, '(' + Math.PI + ')');
+  s = s.replace(/\be\b/g, '(' + Math.E + ')');
+  s = s.replace(/\^/g, '**');
+  s = s.replace(/\blog10\(/g, 'Math.log10(');
+  s = s.replace(/\bln\(/g,    'Math.log(');
+  // Trigonometrik fonksiyonları derece bazlı fonksiyonlara yönlendiriyoruz
+  s = s.replace(/\bsin\(/g,   'sinDeg(');
+  s = s.replace(/\bcos\(/g,   'cosDeg(');
+  s = s.replace(/\btan\(/g,   'tanDeg(');
+  s = s.replace(/\bsqrt\(/g,  'Math.sqrt(');
+  return s;
+}
+
+function calculate() {
+  try {
+    const raw = expr.trim();
+    if (!raw || raw === '0') return;
+    exprEl.textContent = raw;
+    const safe = sanitizeInput(raw);
+    const prepared = prepareExpression(safe);
+    
+    // Dereceyi radyana çeviren fonksiyonları burada tanımlıyoruz
+    const fnStr = `
+        const sinDeg = (x) => Math.sin(x * Math.PI / 180);
+        const cosDeg = (x) => Math.cos(x * Math.PI / 180);
+        const tanDeg = (x) => Math.tan(x * Math.PI / 180);
+        return (${prepared});
+    `;
+    
+    const fn = new Function('"use strict"; ' + fnStr);
+    let res = fn();
+    
+    if (typeof res !== 'number' || !isFinite(res)) throw 'Hata';
+    
+    // cos(90) gibi değerlerdeki çok küçük sapmaları sıfırlama işlemi
+    if (Math.abs(res) < 1e-12) res = 0;
+    if (res % 1 !== 0) res = parseFloat(res.toFixed(10));
+    
+    expr = String(res);
+    justCalculated = true;
+    updateScreen();
+  } catch {
+    exprEl.textContent = expr;
+    expr = '';
+    display.textContent = 'Hata';
+    display.classList.add('error');
+    display.style.fontSize = '20px';
+    setTimeout(() => {
+      display.textContent = '0';
+      display.classList.remove('error');
+      display.style.fontSize = '28px';
+      exprEl.textContent = '';
+    }, 1400);
+  }
+}
+
+document.querySelector('.buttons').addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  const v = btn.getAttribute('data-in');
+  if (v) addText(v);
+});
+
+clrBtn.addEventListener('click', () => {
+  expr = '';
+  justCalculated = false;
+  exprEl.textContent = '';
+  display.textContent = '0';
+  display.classList.remove('error');
+  display.style.fontSize = '28px';
+});
+
+backBtn.addEventListener('click', () => {
+  expr = expr.slice(0, -1);
+  updateScreen();
+});
+
+eqBtn.addEventListener('click', calculate);
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); calculate(); }
+  else if (e.key === 'Backspace') { e.preventDefault(); expr = expr.slice(0, -1); updateScreen(); }
+  else if (e.key === 'Escape') { clrBtn.click(); }
+  else if (/^[0-9+\-*/().^]$/.test(e.key)) { addText(e.key); }
+});
+</script>
+</body>
+</html>
